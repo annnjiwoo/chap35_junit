@@ -31,9 +31,9 @@
 	// 등록 폼 체크
 	function boardWriteCheck() {
 		var form = document.boardWriteForm;
-		if (form.subject.value == '') {
+		if (form.title.value == '') {
 			alert('제목을 입력하세요.');
-			form.subject.focus();
+			form.title.focus();
 			return false;
 		}
 		if (form.writer.value == '') {
@@ -41,6 +41,11 @@
 			form.writer.focus();
 			return false;
 		}
+        if (form.content.value.trim() === '') {
+            alert('내용을 입력하세요');
+            CKEDITOR.instances.content.focus();
+            return false;
+        }
 		return true;
 	}
 </script>

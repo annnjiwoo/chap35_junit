@@ -1,7 +1,12 @@
 package com.javalab.board.controller;
 
 import java.util.ArrayList;
+
+import javax.annotation.Resource;
+import javax.inject.Inject;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,10 +27,26 @@ public class BoardController {
 	/**
 	 * 의존성주입
 	 *  - 스프링 컨테이너에 빈으로 등록되어 있는 객체를 주입해줌
-	 *  1) @Autowired : Type으로 찾아옴
-	 *  2) @Qualifier :  
+	 *  1) @Autowired : Type으로 찾아옴, 스프링 제공
+	 *  2) @Inject : Type으로 찾아옴, 자바 제공
+	 *  3) @Autowired + @Qualifier("이름")   
+	 *  4) @Resource(name = "이름") : 자바 제공   
 	 */
-	@Autowired
+	// 1. @Autowired
+	//@Autowired
+	//private BoardDao dao;
+
+	// 2. @Inject
+	//@Inject
+	//private BoardDao dao;
+
+	// 3. @Autowired + @Qualifier
+	//@Autowired
+	//@Qualifier("boardDao")
+	//private BoardDao dao;
+
+	// 4. @Resource
+	@Resource(name="boardDao")
 	private BoardDao dao;
 	
 	// 기본 생성자
@@ -79,6 +100,7 @@ public class BoardController {
 	}
 
 	// 수정폼을 보여주는 메소드(핸들러)
+	// @RequestParam("no") int no : jsp에서 ?no=1 과 같은 형태로 전달
 	@RequestMapping(value="/boardModify.do", method = RequestMethod.GET)
 	public String boardModifyForm(@RequestParam("no") int no, Model model){
 		// 게시물 목록을 조회

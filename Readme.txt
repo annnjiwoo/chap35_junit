@@ -24,3 +24,15 @@
 4. 컨트롤러에서 생성된 데이터를 View쪽으로 보내는 방법
  - Model model에 저장하면 View단에서 찾아쓸 수 있다.
  
+5. 컨트롤러에서 JSP에서 전달한 파라미터 받는 방법
+ 1) 단순하게 값 하나 받는 방법
+  - @RequestParam("no") int no
+ 2) 객체로 받는 방법
+  -	public String boardWrite(BoardVo vo, Model model){
+ 
+6. 컨트롤러에서 Get/Post 방식으로 요청을 처리하는 방법
+ - method = RequestMethod.POST 
+
+7. 웹자원 경로 webapp/resource/CKEDITOR  
+ - CKEDITOR 자바스크립트 라이브러리 추가
+ - boardWrite.jsp에 자바스크립트 추가

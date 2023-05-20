@@ -19,6 +19,12 @@ public class BoardController {
 //	@Autowired
 //	private BoardService boardService;
 
+	/**
+	 * 의존성주입
+	 *  - 스프링 컨테이너에 빈으로 등록되어 있는 객체를 주입해줌
+	 *  1) @Autowired : Type으로 찾아옴
+	 *  2) @Qualifier :  
+	 */
 	@Autowired
 	private BoardDao dao;
 	
@@ -30,10 +36,19 @@ public class BoardController {
 	/*
 	 * 게시물 목록을 보여주는 메소드(핸들러)
 	 * @RequestMapping :
-	 *  - 요청이 왔을 때 어떤 컨트롤러가 호출이 되어야 하는지 알려주는 지표. 
-	 *  - 어플리케이션이 구동되면서 RequestMappingHandlerMapping에게 어떤 메소드에 어떤
-	 *    매핑정보(url)있는 지 찾아서 알려주는 역할. 
+	 *  - Url 요청이 왔을 때 어떤 컨트롤러가 호출이 되어야 하는지 알려주는 지표. 
+	 *  - 어플리케이션이 구동되면서 핸들러 매핑은 어떤 url과 메소드가 연결되어 
+	 *    있는지 정보를 모두 취합해서 Map 형태로 갖고 있다.url(Key - 메소드명(value) 
 	 */
+	
+	/*
+	 * Model model : 모델은 컨트롤러 단에서 저장한 데이터를 M-V-C중에서
+	 * 	view 단에서 찾아 쓸 수 있도록 데이터를 보관하는 역할을 한다.
+	 *  서블릿 프로젝트에서 request에 저장하던 방식과 유사하지만 request에
+	 *  바로 저장되는 것은 아니다.
+	 */
+	
+	
 	@RequestMapping(value="/boardList.do", method = RequestMethod.GET)
 	public String selectBoardList(Model model){
 		ArrayList<BoardVo> boardList = dao.selectBoardList();

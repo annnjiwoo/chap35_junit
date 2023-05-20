@@ -1,0 +1,19 @@
+create table simple_board (
+     no number(5),
+     title varchar(50)  not null,
+     content  varchar(1000) not null,
+     writer varchar(50)  not null,
+     hit number (5) default 0,
+     regdate date default sysdate
+       );
+-- primary key constraint 추가
+alter table simple_board add constraint pk_board primary key(no);
+-- 시퀀스 생성(번호가 자동으로 1씩 증가)
+create sequence seq_simple_board increment by 1 start with 1;
+--drop sequence seq_simple_board;
+
+--샘플 데이터 저장
+insert into simple_board(no, title, content, writer, hit) values(seq_simple_board.nextval, 'title1', 'content1', 'writer1', 0);
+insert into simple_board(no, title, content, writer, hit) values(seq_simple_board.nextval, 'title2', 'content2', 'writer2', 0);
+insert into simple_board(no, title, content, writer, hit) values(seq_simple_board.nextval, 'title2', 'content2', 'writer2', 0);
+commit;

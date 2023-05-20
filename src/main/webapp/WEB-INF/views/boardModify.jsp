@@ -33,18 +33,25 @@
 			location.href = url;
 		}
 		// 수정 폼 체크
-		function boardModifyCheck() {
-			var form = document.modifyForm;
+		function boardWriteCheck() {
+			var form = document.boardWriteForm;
 			if (form.title.value == '') {
 				alert('제목을 입력하세요.');
 				form.title.focus();
 				return false;
 			}
 			if (form.writer.value == '') {
-				alert('작성자을 입력하세요');
+				alert('작성자를 입력하세요');
 				form.writer.focus();
 				return false;
 			}
+			// CKEDITOR 내용체크 해서 없으면 경고창 보여주고 포커스 이동
+	        var editorData = CKEDITOR.instances.content.getData().trim();
+	        if (editorData === '') {
+	            alert('내용을 입력하세요');
+	            CKEDITOR.instances.content.focus();
+	            return false;
+	        }
 			return true;
 		}
 	</script>
@@ -52,7 +59,7 @@
 <body>
 	<form name="modifyForm"
 		action="<c:url value="/boardModify.do" />" method="post"
-		onsubmit="return boardModifyCheck();">
+		onsubmit="boardModifyCheck();">
 		
 		<input type="hidden" name="no" value="<c:out value="${board.no}" />" />
 			

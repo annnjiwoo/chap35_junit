@@ -41,7 +41,9 @@
 			form.writer.focus();
 			return false;
 		}
-        if (form.content.value.trim() === '') {
+		// CKEDITOR 내용체크 해서 없으면 경고창 보여주고 포커스 이동
+        var editorData = CKEDITOR.instances.content.getData().trim();
+        if (editorData === '') {
             alert('내용을 입력하세요');
             CKEDITOR.instances.content.focus();
             return false;

@@ -17,7 +17,15 @@ import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandl
 import com.javalab.board.dao.BoardDao;
 import com.javalab.board.vo.BoardVo;
 
-
+/**
+ * 컨트롤러 클래스
+ *  - 어플리케이션이 구동되면서 servlet-context.xml에 설정된 바와 같이
+ *    @Controller 어노테이션이 붙은 클래스들을 빈으로 등록한다.
+ *  - JSP의 요청을 받아서 요청 사항을 처리하고 처리 결과를 model에 저장한다.
+ *  - 처리 메소드에서는 최종적으로 JSP 페이지 이름을 리턴하거나 다른 메소드를
+ *    redirect 형태로 반환하기도 한다.     
+ *
+ */
 @Controller
 public class BoardController {
 

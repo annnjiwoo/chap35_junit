@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 
 import com.javalab.board.dao.BoardDao;
+import com.javalab.board.service.BoardServiceImpl;
 import com.javalab.board.vo.BoardVo;
 
 /**
@@ -29,9 +30,6 @@ import com.javalab.board.vo.BoardVo;
 @Controller
 public class BoardController {
 
-//	@Autowired
-//	private BoardService boardService;
-
 	/**
 	 * 의존성주입
 	 *  - 스프링 컨테이너에 빈으로 등록되어 있는 객체를 주입해줌
@@ -40,22 +38,18 @@ public class BoardController {
 	 *  3) @Autowired + @Qualifier("이름")   
 	 *  4) @Resource(name = "이름") : 자바 제공   
 	 */
+	
+	/*
+	 * [서비스 단의 인터페이스 Type으로 의존성 주입]
+	 *  - 인터페이스 Type으로 변수가 선언되었지만 실질적으로 Imple클래스인
+	 *    BoardServiceImple 객체(Bean)가 의존성 주입됨.
+	 *  - 인터페이스의 메소드를 호출하면 실질적으로 Imple 객체의 메소드가
+	 *    대신 호출된다.
+	 * */
 	// 1. @Autowired
-	//@Autowired
-	//private BoardDao dao;
+	@Autowired
+	private BoardServiceImpl service;
 
-	// 2. @Inject
-	//@Inject
-	//private BoardDao dao;
-
-	// 3. @Autowired + @Qualifier
-	//@Autowired
-	//@Qualifier("boardDao")
-	//private BoardDao dao;
-
-	// 4. @Resource
-	@Resource(name="boardDao")
-	private BoardDao dao;
 	
 	// 기본 생성자
 	public BoardController() {
@@ -76,11 +70,9 @@ public class BoardController {
 	 *  서블릿 프로젝트에서 request에 저장하던 방식과 유사하지만 request에
 	 *  바로 저장되는 것은 아니다.
 	 */
-	
-	
 	@RequestMapping(value="/boardList.do", method = RequestMethod.GET)
 	public String selectBoardList(Model model){
-		ArrayList<BoardVo> boardList = dao.selectBoardList();
+		ArrayList<BoardVo> boardList = service.selectBoardList();
 		model.addAttribute("boardList", boardList);
 		return "boardList";	// boardList.jsp
 	}
@@ -89,7 +81,7 @@ public class BoardController {
 	// @RequestParam : @RequestParam("받아올 데이터의 이름") [데이터타입] [가져온데이터를 담을 변수]
 	@RequestMapping(value="/boardView.do", method = RequestMethod.GET)
 	public String getBoardById(@RequestParam("no") int no, Model model){
-		BoardVo boardVo = dao.getBoardById(no);
+		BoardVo boardVo = service.getBoardById(no);
 		model.addAttribute("board", boardVo);
 		return "boardView";	// boardView.jsp
 	}
@@ -103,7 +95,7 @@ public class BoardController {
 	// 작성된 게시물을 데이터베이스에 저장하는 메소드(핸들러)
 	@RequestMapping(value="/boardWrite.do", method = RequestMethod.POST)
 	public String boardWrite(BoardVo vo, Model model){
-		dao.insertBoard(vo);
+		service.insertBoard(vo);
 		return "redirect:boardList.do"; 
 	}
 
@@ -112,7 +104,7 @@ public class BoardController {
 	@RequestMapping(value="/boardModify.do", method = RequestMethod.GET)
 	public String boardModifyForm(@RequestParam("no") int no, Model model){
 		// 게시물 목록을 조회
-		BoardVo boardVo = dao.getBoardById(no);
+		BoardVo boardVo = service.getBoardById(no);
 		model.addAttribute("board", boardVo);
 		return "boardModify";	// boardModify.jsp
 	}
@@ -120,14 +112,14 @@ public class BoardController {
 	// 수정한 내용을 데이터베이스에 반영하는 메소드(핸들러)
 	@RequestMapping(value="/boardModify.do", method = RequestMethod.POST)
 	public String boardModify(BoardVo vo, Model model){
-		dao.modifyBoard(vo);
+		service.modifyBoard(vo);
 		return "redirect:boardList.do"; 
 	}
 
 	// 게시물을 삭제해주는 메소드(핸들러)
-	@RequestMapping(value="/boardDelete.do", method = RequestMethod.GET)
-	public String boardModify(@RequestParam("no") int no){
-		dao.deleteBoard(no);
-		return "redirect:boardList.do"; 
-	}
+	   @RequestMapping(value="/boardDelete.do", method = RequestMethod.GET)
+	   public String boardDelete(@RequestParam("no") int no){
+	      service.deleteBoard(no);
+	      return "redirect:boardList.do"; 
+	   }
 }

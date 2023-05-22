@@ -7,7 +7,9 @@ import java.util.ArrayList;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
-import javax.sql.DataSource;
+
+import org.apache.tomcat.jdbc.pool.DataSource;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.javalab.board.vo.BoardVo;
@@ -26,26 +28,11 @@ public class BoardDao  {
 	private PreparedStatement pstmt;
 	private ResultSet rs;
 	
-	private static DataSource dataSource;	
-	private static BoardDao instance;
-	
-	private BoardDao() {
-		System.out.println("여기는 BoardDao 생성자");
-		try {
-			Context ctx = new InitialContext();
-			Context envContext = (Context) ctx.lookup("java:/comp/env");
-			dataSource = (DataSource) envContext.lookup("jdbc/oracle");
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}	
-	
-	// 싱글톤 팬턴으로 생성
-	public static BoardDao getInstance() {
-		if (instance == null)
-			instance = new BoardDao();
-		return instance;
-	}
+	@Autowired
+	private DataSource dataSource;	
+	//org.apache.tomcat.jdbc.poll.DataSource
+
+
 
 	// 게시물 목록 조회 메소드
 	public ArrayList<BoardVo> selectBoardList() {

@@ -13,7 +13,7 @@
 	
 	<!-- 2. 읽을 경로 2 webapp/Web-INF/config/database.propertieslocation 파일을 읽어들임 -->
 	
-	<context:property-placeholder location="/WEB-INF/config/database.properties" />
+	<context:property-placeholder location="classpath:config/database.properties" />
 	
 	<!-- datasource 빈등록 -->
 	<bean id="dataSource" class="org.apache.tomcat.jdbc.pool.DataSource" >
